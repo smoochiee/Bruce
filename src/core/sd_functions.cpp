@@ -35,6 +35,12 @@ bool setupSdCard() {
 
   // avoid unnecessary remounting
 if(sdcardMounted) return true;
+  
+ #if defined(SMOOCHIEE_BOARD)
+  sdcardSPI.end();
+  sdcardSPI.begin(SDCARD_SCK, SDCARD_MISO, SDCARD_MOSI, SDCARD_CS); // start SPI communications
+  delay(10);
+#endif
 
 #if TFT_MOSI == SDCARD_MOSI && TFT_MOSI>0
   if (!SD.begin(SDCARD_CS, tft.getSPIinstance()))
